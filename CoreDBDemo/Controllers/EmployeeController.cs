@@ -66,15 +66,35 @@ namespace CoreDBDemo.Controllers
         }
 
         // PUT api/<EmployeeController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult> Put(Employee employee)
         {
+            try
+            {
+                await _employeeServices.UpdateEmployee(employee);
+                return Ok(HttpStatusCode.Accepted);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // DELETE api/<EmployeeController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            try
+            {
+                await _employeeServices.DeleteEmployeeById(id);
+                return Ok(HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

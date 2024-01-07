@@ -30,9 +30,28 @@ namespace CoreDBDemo.Repository
 
         }
 
-        public Task<bool> DeleteEmployeeById(int empId)
+        public async Task<bool> DeleteEmployeeById(int empId)
         {
-            throw new NotImplementedException();
+           
+            try
+            {
+                string query = "delete  from employees where emp_id='" + empId + "'";
+                // string query = "Select * from employees where emp_id=@empid";
+
+                _sqlCommand.CommandText = query;
+                SqlDataReader dr = await _sqlCommand.ExecuteReaderAsync();
+                if (dr.Read())
+                {
+                    return true;
+
+                }
+            }
+            catch
+            {
+                _sqlConnection!.Close();
+                throw;
+            }
+            return false;
         }
 
         public async Task<IEnumerable<Employee>> GetEmployee()
@@ -105,6 +124,30 @@ namespace CoreDBDemo.Repository
                 _sqlCommand.CommandText = query;
                 int result = await _sqlCommand.ExecuteNonQueryAsync();
                 if (result>0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                _sqlConnection!.Close();
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateEmployee(Employee employee)
+        {
+            try
+            {
+                string query = "Update employees set [emp_name]='" + employee.EmployeeName + "',[emp_email]='" + employee.EmployeeEmail + "',[emp_mobile]='" + employee.EmployeeMobile + "',[emp_salary]='" + employee.EmployeeSalary + "' where [emp_id]='" + employee.EmployeeId + "'";
+
+                _sqlCommand.CommandText = query;
+                int result = await _sqlCommand.ExecuteNonQueryAsync();
+                if (result > 0)
                 {
                     return true;
                 }

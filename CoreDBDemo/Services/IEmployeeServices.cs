@@ -7,6 +7,7 @@ namespace CoreDBDemo.Services
         Task<IEnumerable<Employee>> GetEmployee();
         Task<Employee> GetEmployeeById(int empId);
         Task<bool> SaveEmployee(Employee employee);
+        Task<bool> UpdateEmployee(Employee employee);
         Task<bool> DeleteEmployeeById(int empId);
     }
 }

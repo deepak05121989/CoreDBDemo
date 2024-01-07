@@ -11,9 +11,16 @@ namespace CoreDBDemo.Services
             _employeeRepository = employeeRepository;
         
         }
-        public Task<bool> DeleteEmployeeById(int empId)
+        public async Task<bool> DeleteEmployeeById(int empId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _employeeRepository.DeleteEmployeeById(empId);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Employee>> GetEmployee()
@@ -46,6 +53,18 @@ namespace CoreDBDemo.Services
             try
             {
                 return await _employeeRepository.SaveEmployee(employee);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateEmployee(Employee employee)
+        {
+            try
+            {
+                return await _employeeRepository.UpdateEmployee(employee);
             }
             catch
             {
